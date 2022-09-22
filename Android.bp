@@ -17,16 +17,20 @@
 
 //clear values
 cc_binary {
-    name: "binderdemo_cpp",
+    name: "NativeBinder",
     cflags: [
         "-Wall",
         "-Wextra",
         "-Werror",
         "-Wunused",
+        "-UNDEBUG",
+        "-DLOG_TAG=\"native_mjp\"",
     ],
     srcs: [
-        "Service.cpp",
-        ":htzx_perfd_aidl",
+        "NativeSession.cpp",
+        "main.cpp",
+        "NativeService.cpp",
+        ":nativebinder_aidl",
     ],
 
     shared_libs: [
@@ -38,9 +42,9 @@ cc_binary {
 
 }
 filegroup {
-    name: "htzx_perfd_aidl",
+    name: "nativebinder_aidl",
     srcs: [
-        "aidl/htzx/IMyService.aidl",
+         "aidl/htzx/I*.aidl"
     ],
     path: "aidl",
 }
