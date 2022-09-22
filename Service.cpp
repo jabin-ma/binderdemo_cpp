@@ -4,27 +4,29 @@
 #define LOG_TAG "mjp"
 
 #include <utils/Log.h>
-#include "MyService.h"
+#include <htzx/BnMyService.h>
 
 
 #include <binder/IPCThreadState.h>
 #include <binder/IServiceManager.h>
 #include <binder/PermissionCache.h>
 #include <utils/String16.h>
-namespace android {
+
+using htzx::BnMyService;
+using android::binder::Status;
 
 class MyServiceProxy : public BnMyService{
 
-    int say(){
+   Status say(int32_t* _aidl_return) override {
+    *_aidl_return = 2016;
      ALOGD("c++.say()");
-    return 2016;
-    }
+    return Status::ok();
+  }
  };
-}
 
 int main(int , char* []) {
     android::sp<android::IServiceManager> sm = android::defaultServiceManager();
-    android::sp<android::MyServiceProxy> proxy = new android::MyServiceProxy();
+    android::sp<MyServiceProxy> proxy = new MyServiceProxy();
     android::status_t ret = sm->addService(
             android::String16("com.android.majipeng.IMyService"), proxy);//register to SM
     if (ret != android::OK) {//
